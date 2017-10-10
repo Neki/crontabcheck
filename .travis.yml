@@ -1,5 +1,17 @@
 language: rust
 rust:
-    - stable
-    - beta
+  - stable
+  - beta
 cache: cargo
+script:
+  - cargo build --release
+  - cargo test
+deploy:
+  provider: releases
+  api_key:
+    secure: DpWyzlxPWukgSAiD/vZw400zWnzjP1GR9X1XIWMpmZbplTwnXN00fX++c5OknJKUjIpIWt2CYGZE+1EpMzTpT0iSkW2vF6ksb+DiQhZ1h2NMUDBL80vNCZ1VTpzq6g4K+Z2boHeGBa9c/2ngtPDtR4oTyowXz+FYshMPjTvpYLfJEkqSVKisej2ERie9cAUayTEgFev/px24UH6qE65fu5Sv2jYAKvmTIQVxdOTTB2Qo2tnhbfH2IuUf8hWxpaTqL4RecnJiA8HvMHn4KanQwIsp02TY9qdYzrPcznkC7tskoqLNEGAiRnixjCzXuztfN6gb7EqH/1nb9nHND6sqDgqamNJy2kA+apOgILDFU96CfwSMT+ovZFkSAGmii9ZFfqqsd9EpfJ66z3kXxnz+UQN0a4NrQwkEAqnopgeOKMYqIT8v2P0eR2fcINLu5hUNreMD1oR0n1y8vxGFse6o93uyUQcMCElezXIimSwsfvLDiomZQKQlVzEcJECeEHB50tvkNnOJAcWMA8E3SJgRJ+LTSOJz04IiT0g++kmkFRckVt1ZCtUP5OL7dEC8AJb0ebklL5e5gV7Ca6wMYHU2W7EWfMEv8dscKyy2Dw2gfeLAGXxSRbBfxI4JRTR1Jcj72OSyHtZo70i9vUsTZu7cjETqm+8oOIiOeA2S/COc+fY=
+  file: target/release/crontabcheck
+  skip_cleanup: true
+  on:
+    repo: Neki/crontabcheck
+    tags: true
