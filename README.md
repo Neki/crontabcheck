@@ -7,6 +7,8 @@ Should work with most standard crons. When in doubt, this validator should err o
 Note that the only foolproof way to actually validate a crontab is to install it and check whether cron can
 read it, typically by looking at `/var/log/syslog`.
 
+[![Build Status](https://travis-ci.org/Neki/crontabcheck.svg?branch=master)](https://travis-ci.org/Neki/crontabcheck)
+
 ## Usage
 
 ```
