@@ -20,6 +20,13 @@ non-zero status code and print do stdout the (hopefully not too cryptic) error m
 
 Use `crontabcheck --help` for the list of options.
 
+## Installation
+
+The [Github releases page](https://github.com/Neki/crontabcheck/releases) list available binaries built on
+Ubuntu 14.04 (from Travis CI). They should work on a variety of Debian-like distributions.
+
+Alternatively, you can compile from source. Instructions are below.
+
 
 ### Limitations
 
