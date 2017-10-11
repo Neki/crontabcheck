@@ -346,6 +346,12 @@ mod tests {
 
         let out = parse_crontab("1-2 * * * mon,tue root /usr/local/bin yay".as_bytes(), options);
         assert_eq!(out, Done("".as_bytes(), ()));
+
+        let out = parse_crontab("#This is a comment".as_bytes(), options);
+        assert_eq!(out, Done("".as_bytes(), ()));
+
+        let out = parse_crontab("VARIABLE=VALUE".as_bytes(), options);
+        assert_eq!(out, Done("".as_bytes(), ()));
     }
 
     #[test]
