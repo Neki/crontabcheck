@@ -247,12 +247,25 @@ fn parse_environnment_variable(input: &[u8]) -> IResult<&[u8], (), CrontabSyntax
 
 }
 
+fn parse_empty_line(input: &[u8]) -> IResult<&[u8], (), CrontabSyntaxError> {
+    for c in input {
+        if !is_space(*c) {
+            return Error(error_position!(ErrorKind::Space, input));
+        }
+    }
+    return Done(&[], ());
+}
+
 // TODO: the caller should not have to depend on symbols exported by nom
 pub fn parse_crontab<'a, T: AsRef<str>>(input: &'a[u8], options: &CrontabParserOptions<T>) -> IResult<&'a[u8], (), CrontabSyntaxError> {
     // We do not use the alt_complete! combinator because we want to have nice error codes
-    // Try to parse the line as a comment, then if it fails as an environment variable assignation,
-    // then as an actual crontab line
-    let mut result = parse_comment(input);
+    // Try to parse the line as an empty line, then if it fails as a comment, then as an
+    // environment variable assignation, then as an actual crontab line
+    let mut result = parse_empty_line(input);
+    if let Done(..) = result {
+        return result;
+    }
+    result = parse_comment(input);
     if let Done(..) = result {
         return result;
     }
@@ -351,6 +364,9 @@ mod tests {
         assert_eq!(out, Done("".as_bytes(), ()));
 
         let out = parse_crontab("VARIABLE=VALUE".as_bytes(), options);
+        assert_eq!(out, Done("".as_bytes(), ()));
+
+        let out = parse_crontab("   ".as_bytes(), options);
         assert_eq!(out, Done("".as_bytes(), ()));
     }
 
