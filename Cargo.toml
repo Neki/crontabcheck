@@ -1,6 +1,6 @@
 [package]
 name = "crontabcheck"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Benoît Faucon <faucon.benoit@cegetel.net>"]
 
 [dependencies]
@@ -9,4 +9,3 @@ clap = "2.25"
 [dependencies.nom]
 version = "3.0"
 features = ["verbose-errors"]
-
