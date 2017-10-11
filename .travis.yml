@@ -6,6 +6,7 @@ cache: cargo
 script:
   - cargo build --release
   - cargo test
+  - strip target/release/crontabcheck
 deploy:
   provider: releases
   api_key:
