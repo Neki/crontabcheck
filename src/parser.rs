@@ -105,7 +105,7 @@ fn day_of_week_value_parser(input: &[u8]) -> IResult<&[u8], (), CrontabSyntaxErr
     match parsed {
         Done(i, _) => Done(i, ()),
         Incomplete(inc) => Incomplete(inc),
-        Error(..) => parse_within_bounds(input, 1, 31)
+        Error(..) => parse_within_bounds(input, 0, 7)
     }
 }
 
@@ -392,6 +392,8 @@ mod tests {
     fn test_day_of_week_value_parser() {
         assert_eq!(day_of_week_value_parser("mon".as_bytes()), Done("".as_bytes(), ()));
         assert_eq!(day_of_week_value_parser("mon ".as_bytes()), Done(" ".as_bytes(), ()));
+        assert_eq!(day_of_week_value_parser("0 ".as_bytes()), Done(" ".as_bytes(), ()));
+        assert_eq!(day_of_week_value_parser("1 ".as_bytes()), Done(" ".as_bytes(), ()));
     }
 
     #[test]
