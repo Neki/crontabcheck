@@ -206,13 +206,23 @@ fn parse_command_line(input: &[u8]) -> IResult<&[u8], (), CrontabSyntaxError> {
             input
         ))
     }
-    for &c in input {
-        if c == b'%' {
-            let reason = format!("special char {} should not be used", c as char);
-            return Error(error_position!(ErrorKind::Custom(
+    // FIXME: this is a dirty and inaccurate way of checking whether the '%' is escaped
+    // TODO: give the correct error position
+    let reason = "special char % should not be used unescaped".to_string();
+    let error = Error(error_position!(ErrorKind::Custom(
                 CrontabSyntaxError::InvalidCommandLine { reason }),
                 input
-            ))
+            ));
+    if let Some(first_char) = input.first() {
+        if *first_char == b'%' {
+            return error;
+        }
+    }
+    for slice in input.windows(2) {
+        let c1 = slice[0];
+        let c2 = slice[1];
+        if c2 == b'%' && c1 != b'\\' {
+            return error;
         }
     }
     Done(&[], ())
